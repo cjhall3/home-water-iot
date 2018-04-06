@@ -19,7 +19,7 @@ function handler(val) {
     } else if(attached) {
         console.log("PING " + ++pulseCount);
     } else {
-        die("Handler did not attach properly");
+        die("Handler did not attach properly: " + val.err);
     }
 }
 
@@ -33,5 +33,6 @@ function detach() {
 
 function die(msg) {
     detach();
+    console.error(msg);
     process.exit(1);
 }

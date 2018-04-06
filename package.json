@@ -9,6 +9,5 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bonescript": "^0.6.3"
   }
 }

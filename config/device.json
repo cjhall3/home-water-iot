@@ -1,0 +1,6 @@
+{
+    "TODO": [
+        "Values specific to each BBB can go here (pin numbers, ip addresses)",
+        "This file should be generated and git-ignored"
+    ]
+}
