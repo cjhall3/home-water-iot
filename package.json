@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "configure": "node lib/init.js",
+    "connect": "echo \"TODO: write connection script using iwconfig\" && exit 1",
+    "start": "echo \"TODO: fill out index.js\" && exit 1",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
