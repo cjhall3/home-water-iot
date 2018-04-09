@@ -1,5 +1,5 @@
 {
     "SSID": "WaterSystemNetwork",
-    "addressPrefix": "192.168.0.",
-    "hubAddress": "192.168.0.169"
+    "addressPrefix": "192.168.1.",
+    "hubAddress": "192.168.1.169"
 }
