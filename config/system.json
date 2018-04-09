@@ -1,4 +1,5 @@
 {
-    "TODO": "Hard-coded values will go here",
-    "SSID": "WaterSystemNetwork"
+    "SSID": "WaterSystemNetwork",
+    "addressPrefix": "192.168.0.",
+    "hubAddress": "192.168.0.169"
 }
