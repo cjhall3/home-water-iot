@@ -51,13 +51,13 @@ setInterval( loop, 1000 );
 
 client.on( "data", function( data ) {
 	var server_response = data.toString()
-	if( server_response.equals( "OK" ) ) {
+	if( server_response === "OK" ) {
 		return;	
 	}
-	else if( server_response.equals( "STOP" ) ) {
+	else if( server_response === "STOP" ) {
 		b.digitalWrite( motor_pin, LOW );
 	}
-	else if( server_response.equals( "RESET" ) ) {
+	else if( server_response === "RESET" ) {
                 b.digitalWrite( motor_pin, HIGH );
 		total_mL = 0;		
 	}
