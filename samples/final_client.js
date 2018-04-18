@@ -46,7 +46,7 @@ b.digitalWrite( motor_pin, LOW );
 b.pinMode( flow_pin, b.INPUT ) || die( "[ERROR] Failed to set flow_pin..." );
 b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin interrupt handler..." );
 
-setInterval( loop, 500 );
+setInterval( loop, 1000 );
 // --------------------------FUNCTION DECLARATIONS-----------------------
 
 client.on( "data", function( data ) {
@@ -78,7 +78,7 @@ function loop() {
   flow_mL = ( flowRate / 60 )*1000;
   total_mL += flow_mL;
 
-  client.write( total_mL );
+  client.write( faucet_id + "," + total_mL.toString() );
    
   pulseCount = 0;
   b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin handler..." );
