@@ -115,6 +115,10 @@ function loop() {
 
   b.analogRead( ultrasonic_pin, updateWaterLevel );
 
+  // THIS CALCULATION IS IMPORTANT:
+  // We use the ultrasonic sensor to get a precise reading of where the water level is,
+  // with the use of the flow sensors and the ultrasonic sensor, we can use "analytics" to 
+  // adjust for "drift" in the error of the flow sensor alone.
   if( ultrasonic_distance < ultrasonic_critical_level && flow_rate == 0 ) {
     conservative_mode = true;
   }
