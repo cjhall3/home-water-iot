@@ -51,9 +51,15 @@ var server = net.createServer( function( c ) {
 
         if( faucet_id === "A" && faucet_A_client == null ) {
             faucet_A_client = c;
+            faucet_A_client.on( "end", function() {
+                console.log( "Faucet A disconnected..." );
+            });
         }
         else if( faucet_id === "B" && faucet_B_client == null ) {
             faucet_B_client = c;
+            faucet_B_client.on( "end", function() {
+                console.log( "Faucet B disconnected..." );
+            });
         }
 
 	if( faucet_flow_read >= FLOW_MAX ) {
@@ -65,9 +71,6 @@ var server = net.createServer( function( c ) {
 	}
     });
 
-    c.on( "end", function() {
-        console.log( "Faucet disconnected: " + c );
-    });
 });
 
 server.listen( 8124, function() {
