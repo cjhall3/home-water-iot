@@ -1,41 +1,39 @@
-var prompt = require("inquirer").createPromptModule();
+var utils = require("./test-utils");
+var connect = require("../lib/net/connect");
 
-var ask = function(text) {
-    var question = {
-        name: "test",
-        message: text,
-        type: "confirm"
-    };
-    return prompt([question])
-        .then(answers => {
-            if (!answers.test) {
-                throw new Error("Confirmation required to continue");
-            }
-        });
-};
+var ask = utils.ask;
+var wait = utils.wait;
+var print = utils.print;
 
-var wait = function(time) {
-    return new Promise((accept, reject) => setTimeout(accept, time));
-}
-
-var run = function() {
+var run = function(faucet) {
     return Promise.resolve()
-        .then(() => ask("First Test. Continue?"))
+        .then(() => ask("Running faucet tests. Continue?"))
         .then(() => {
-            console.log("Opening Valves");
-            return wait(2000);
+            print("Attempting to close valve...");
+            return faucet.closeValve();
         })
-        .then(() => ask("Valves open?"))
+        .then(() => wait(5000))
+        .then(() => ask("Please add two liters of water to the tank and open the manual valve. Ready?"))
         .then(() => {
-            console.log("Closing Valves");
-            return wait(1000);
+            print("Opening valves");
+            faucet.resetWater();
+            return faucet.openValve();
         })
-        .then(() => ask("Valves closed?"))
-        .then(() => console.log("Tests Passed!"))
-        .catch(reason => {
-            console.error("Tests failed");
-            console.error(reason);
-        });
+        .then(() => wait(2000))
+        .then(() => {
+            print("Closing valves");
+            return faucet.closeValve();
+        })
+        .then(() => wait(5000))
+        .then(() => ask("Did water briefly exit the faucet and then stop?"))
+        .then(() => print("Measured " + faucet.waterUsage + " liters"))
+        .then(() => ask("Is this measurement accurate?"))
+        .then(() => ask("After running all faucet tests, run the tank tests. Finished?"))
+        .then(() => {
+            print("Attempting to connect...");
+            return connect.asFaucet();
+        })
+        .then(() => ask("Connection success. Please continue when the water stops flowing."));
 }
 
 module.exports = run;

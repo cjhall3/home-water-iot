@@ -1,19 +1,23 @@
 var config = require("../lib/utils/config");
-var tankTest = require("./tank-test");
-var faucetTest = require("./faucet-test");
+var sys = require("../lib/system");
 
-config.getUserConfig()
-    .then(conf => {
+Promise.all([config.getDeviceConfig(), sys.createController()])
+    .then(([conf, controller]) => {
         if (conf.type === config.types.FAUCET) {
             // Run faucet test
-            faucetTest()
-        } else if (config.type === config.types.TANK) {
+            test = require("./faucet-test")
+        } else if (conf.type === config.types.TANK) {
             // Run tank test
-            tankTest()
+            test = require("./tank-test")
         } else {
-            console.error("Device not set up for config");
+            throw new Error("Device config not set up properly");
         }
-    }).catch(reason => {
+
+        return test(controller);
+    })
+    .then(() => console.log("Tests Passed!"))
+    .catch(reason => {
+        console.error("Tests Failed!");
         console.error(reason);
     });
 
