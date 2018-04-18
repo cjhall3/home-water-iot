@@ -75,7 +75,7 @@ client.on( "end", function() {
 function loop() {
   b.detachInterrupt( flow_pin );
   flow_rate = pulse_count / calibration_factor;
-  flow_mL = ( flowRate / 60 )*1000;
+  flow_mL = ( flow_rate / 60 )*1000;
   total_mL += flow_mL;
 
   client.write( faucet_id + "," + total_mL.toString() );
