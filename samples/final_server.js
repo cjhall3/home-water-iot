@@ -33,8 +33,8 @@ var GO    = "GO";
 var RESET = "RESET";
 
 // Faucet variables
-var faucet_A_client;
-var faucet_B_client;
+var faucet_A_client = null;
+var faucet_B_client = null;
 var faucet_A_usage = 0;
 var faucet_B_usage = 0;
 
@@ -43,13 +43,19 @@ var faucet_B_usage = 0;
 console.log( "----------------------------------------" );
 
 var server = net.createServer( function( c ) {
-    //TODO: determine faucet client id, assign to faucet_X_client
     console.log( "Faucet connected: " + c );
 
     c.on( "data", function( data ) {
         var response = data.toString().split( "," );
 	var faucet_id = response[ 0 ];
 	var faucet_flow_read = response[ 1 ];
+
+        if( faucet_id === "A" && faucet_A_client == null ) {
+            faucet_A_client = c;
+        }
+        else if( faucet_id === "B" && faucet_B_client == null ) {
+            faucet_B_client = c;
+        }
 
 	if( faucet_flow_read >= FLOW_MAX ) {
 		console.log( "Faucet " + faucet_id + "has used up all its available water..." );
