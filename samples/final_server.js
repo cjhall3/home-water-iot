@@ -23,6 +23,8 @@ var ultrasonic_pin             = "P9_39";
 var ultrasonic_distance        = 0;
 var ultrasonic_distance_factor = 1.8 / 0.00699;
 var critical_level             = 14;
+var empty_level                = 2.7;
+var full_level                 = 18.9;
 console.log( "   ULTRASONIC PIN: " + ultrasonic_pin );
 
 // Server command strings
