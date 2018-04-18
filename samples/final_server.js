@@ -23,7 +23,6 @@ var ultrasonic_pin             = "P9_39";
 var ultrasonic_distance        = 0;
 var ultrasonic_distance_factor = 1.8 / 0.00699;
 var critical_level             = 14;
-var critical_tolerance         = 1;
 console.log( "   ULTRASONIC PIN: " + ultrasonic_pin );
 
 // Server command strings
@@ -37,6 +36,9 @@ var faucet_B_client = null;
 var faucet_A_usage = 0;
 var faucet_B_usage = 0;
 
+// Conservative mode
+var conservative_mode = false;
+
 // -------------------------------MAIN CODE------------------------------
 
 console.log( "----------------------------------------" );
@@ -49,16 +51,24 @@ var server = net.createServer( function( c ) {
 	var faucet_id = response[ 0 ];
 	var faucet_flow_read = response[ 1 ];
 
+        // Add sanity check to parsing flow read; it could be bogus
+        var parsed_read = parseFloat( faucet_flow_read );
+        if( !isNaN( parsed_read ) ) {
+            total_mL -= parsed_read;
+        }
+
         if( faucet_id === "A" && faucet_A_client == null ) {
             faucet_A_client = c;
             faucet_A_client.on( "end", function() {
                 console.log( "Faucet A disconnected..." );
+                faucet_A_client = null;
             });
         }
         else if( faucet_id === "B" && faucet_B_client == null ) {
             faucet_B_client = c;
             faucet_B_client.on( "end", function() {
                 console.log( "Faucet B disconnected..." );
+                faucet_B_client = null;
             });
         }
         
@@ -104,6 +114,13 @@ function loop() {
   total_mL += flow_mL;
 
   b.analogRead( ultrasonic_pin, updateWaterLevel );
+
+  if( ultrasonic_distance < ultrasonic_critical_level && flow_rate == 0 ) {
+    conservative_mode = true;
+  }
+  else {
+    conservative_mode = false;
+  }
 
   pulseCount = 0;
   b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin handler..." );
