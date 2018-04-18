@@ -29,7 +29,6 @@ console.log( "   ULTRASONIC PIN: " + ultrasonic_pin );
 // Server command strings
 var OK    = "OK";
 var STOP  = "STOP";
-var GO    = "GO";
 var RESET = "RESET";
 
 // Faucet variables
@@ -59,10 +58,10 @@ var server = net.createServer( function( c ) {
 
 	if( faucet_flow_read >= FLOW_MAX ) {
 		console.log( "Faucet " + faucet_id + "has used up all its available water..." );
-		// TODO: notify faucet to shut off
+                c.write( "STOP" );
 	}
 	else {
-		// TODO: figure out status
+                c.write( "OK" );
 	}
     });
 

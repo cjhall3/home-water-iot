@@ -54,13 +54,11 @@ client.on( "data", function( data ) {
 	if( server_response.equals( "OK" ) ) {
 		return;	
 	}
-	else if( server_response.equals( "GO" ) ) {
-		b.digitalWrite( motor_pin, HIGH );
-	}
 	else if( server_response.equals( "STOP" ) ) {
 		b.digitalWrite( motor_pin, LOW );
 	}
 	else if( server_response.equals( "RESET" ) ) {
+                b.digitalWrite( motor_pin, HIGH );
 		total_mL = 0;		
 	}
 	else {
