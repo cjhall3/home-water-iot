@@ -84,8 +84,13 @@ setInterval( resetQuota, 1000 * 60 );
 
 function resetQuota() {
   // TODO: send RESET signal to clients
-  // TODO: 
   console.log( "Quota for water usage expired. Resetting..." );
+  if( faucet_A_client != null ) {
+    faucet_A_client.write( "RESET" );
+  }
+  if( faucet_B_client != null ) {
+    faucet_B_client.write( "RESET" );
+  }
 }
 
 function loop() {
