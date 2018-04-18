@@ -2,6 +2,7 @@
 
 var b = require( "bonescript" );
 var net = require( "net" );
+console.log( "" );
 console.log( "----------INITIALIZING STARTUP----------" );
 
 // --------------------------INITIALIZE VARIABLES------------------------
@@ -40,7 +41,6 @@ var faucet_B_usage = 0;
 // -------------------------------MAIN CODE------------------------------
 
 console.log( "----------------------------------------" );
-console.log( "" );
 
 var server = net.createServer( function( c ) {
     //TODO: determine faucet client id, assign to faucet_X_client

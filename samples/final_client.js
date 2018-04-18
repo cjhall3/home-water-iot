@@ -2,6 +2,7 @@
 
 var b = require("bonescript");
 var net = require("net");
+console.log( "" );
 console.log( "----------INITIALIZING STARTUP----------" );
 
 // --------------------------INITIALIZE VARIABLES------------------------
@@ -33,7 +34,6 @@ console.log( "   FLOW PIN: " + flow_pin );
 // -------------------------------MAIN CODE------------------------------
 
 console.log( "----------------------------------------" );
-console.log( "" );
 
 var client = net.connect( 8124, server_ip, function() {
 	console.log( "Connected to server..." );
