@@ -42,7 +42,7 @@ var faucet_B_usage = 0;
 console.log( "----------------------------------------" );
 
 var server = net.createServer( function( c ) {
-    console.log( "Faucet connected: " + c );
+    console.log( "Faucet connected... " );
 
     c.on( "data", function( data ) {
         var response = data.toString().split( "," );
@@ -61,16 +61,17 @@ var server = net.createServer( function( c ) {
                 console.log( "Faucet B disconnected..." );
             });
         }
-
-	if( faucet_flow_read >= FLOW_MAX ) {
-		console.log( "Faucet " + faucet_id + "has used up all its available water..." );
-                c.write( "STOP" );
-	}
-	else {
-                c.write( "OK" );
-	}
+        
+        if( faucet_id === "A" && faucet_flow_read >= FLOW_MAX ) {
+            faucet_A_client.write( "STOP" );
+        }
+        else if( faucet_id === "B" && faucet_flow_read >= FLOW_MAX ) {
+            faucet_B_client.write( "STOP" );
+        }
+        else {
+            c.write( "OK" );
+        }
     });
-
 });
 
 server.listen( 8124, function() {
