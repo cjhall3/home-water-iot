@@ -41,7 +41,7 @@ var client = net.connect( 8124, server_ip, function() {
 });
 
 b.pinMode( motor_pin, b.OUTPUT ) || die( "[ERROR] Failed to set motor_pin..." );
-b.digitalWrite( motor_pin, LOW );
+b.digitalWrite( motor_pin, HIGH );
 
 b.pinMode( flow_pin, b.INPUT ) || die( "[ERROR] Failed to set flow_pin..." );
 b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin interrupt handler..." );

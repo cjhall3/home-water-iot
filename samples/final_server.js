@@ -15,7 +15,8 @@ var flow_rate          = 0.0;
 var flow_mL            = 0;
 var total_mL           = 0;
 var attached           = false;
-var FLOW_MAX           = 2000;
+var FLOW_MAX_NORMAL    = 2000;
+var FLOW_MAX_CRITICAL  = 4000;
 console.log( "   FLOW PIN: " + flow_pin );
 
 // Ultrasonic sensor pinout
@@ -75,15 +76,31 @@ var server = net.createServer( function( c ) {
                 faucet_B_client = null;
             });
         }
-        
-        if( faucet_id === "A" && faucet_flow_read >= FLOW_MAX ) {
-            faucet_A_client.write( "STOP" );
-        }
-        else if( faucet_id === "B" && faucet_flow_read >= FLOW_MAX ) {
-            faucet_B_client.write( "STOP" );
+        if( conservative_mode ) {
+            if( faucet_id === "A" && faucet_flow_read >= FLOW_MAX_NORMAL ) {
+                console.log( "Stopping faucet A..." );
+                faucet_A_client.write( "STOP" );
+            }
+            else if( faucet_id === "B" && faucet_flow_read >= FLOW_MAX_NORMAL ) {
+                console.log( "Stopping faucet B..." );
+                faucet_B_client.write( "STOP" );
+            }
+            else {
+                c.write( "OK" );
+            }
         }
         else {
-            c.write( "OK" );
+            if( faucet_id === "A" & faucet_flow_read >= FLOW_MAX_CRITICAL ) {
+                console.log( "Faucet A has used all its reserved water, stopping..." );
+                faucet_A_client.write( "STOP" );
+            }
+            else if( faucet_id === "B" & faucet_flow_read >= FLOW_MAX_CRITICAL ) {
+                console.log( "Faucet B has used all its reserved water, stopping..." );
+                faucet_A_client.write( "STOP" );
+            }
+            else {
+                c.write( "OK" );
+            }
         }
     });
 });
