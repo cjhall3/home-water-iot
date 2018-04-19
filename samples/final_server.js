@@ -46,7 +46,7 @@ var conservative_mode = false;
 console.log( "----------------------------------------" );
 
 var server = net.createServer( function( c ) {
-    console.log( "Faucet connected... " );
+    console.log( "Faucet connected, evaluating id... " );
 
     c.on( "data", function( data ) {
         var response = data.toString().split( "," );
@@ -60,6 +60,7 @@ var server = net.createServer( function( c ) {
         }
 
         if( faucet_id === "A" && faucet_A_client == null ) {
+            console.log( "Faucet A connected..." );
             faucet_A_client = c;
             faucet_A_client.on( "end", function() {
                 console.log( "Faucet A disconnected..." );
@@ -67,6 +68,7 @@ var server = net.createServer( function( c ) {
             });
         }
         else if( faucet_id === "B" && faucet_B_client == null ) {
+            console.log( "Faucet B connected..." );
             faucet_B_client = c;
             faucet_B_client.on( "end", function() {
                 console.log( "Faucet B disconnected..." );
@@ -121,7 +123,7 @@ function loop() {
   // We use the ultrasonic sensor to get a precise reading of where the water level is,
   // with the use of the flow sensors and the ultrasonic sensor, we can use "analytics" to 
   // adjust for "drift" in the error of the flow sensor alone.
-  if( ultrasonic_distance < ultrasonic_critical_level && flow_rate == 0 ) {
+  if( ultrasonic_distance < critical_level && flow_rate == 0 ) {
     conservative_mode = true;
   }
   else {
@@ -139,7 +141,6 @@ function updateWaterLevel( voltage ) {
 function pulseCounter( val ){
   if ( val.attached ) {
     attached = true;
-    console.log( "Flow sensor handler attached..." );
   } else if( attached ) {
       ++pulseCount;
   } else {
