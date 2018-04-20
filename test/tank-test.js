@@ -21,7 +21,7 @@ var run = function(tank) {
         .then(() => ask("Is this measurement accurate?"))
         .then(() => {
             print("Starting server...");
-            return connect.asTank();
+            // return connect.asTank();
         })
         .then(() => {
             // TODO: Listen for two connections

@@ -31,7 +31,7 @@ var run = function(faucet) {
         .then(() => ask("After running all faucet tests, run the tank tests. Finished?"))
         .then(() => {
             print("Attempting to connect...");
-            return connect.asFaucet();
+            // return connect.asFaucet();
         })
         .then(() => ask("Connection success. Please continue when the water stops flowing."));
 }

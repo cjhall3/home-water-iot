@@ -98,7 +98,7 @@ server.listen( 8124, function() {
   console.log( "Server is launched..." );
 });
 
-b.pinMode( flow_pin, b.INPUT ) || die( "[ERROR] Failed to set flow_pin..." );
+b.pinMode( flow_pin, b.INPUT, undefined, undefined, undefined, function(d) {console.error(">>>", d);} ) || die( "[ERROR] Failed to set flow_pin..." );
 b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin interrupt handler..." );
 
 setInterval( loop, 1000 );
