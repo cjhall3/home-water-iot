@@ -1,5 +1,6 @@
 {
-    "SSID": "WaterSystemNetwork",
+    "ssid": "WaterSystemNetwork",
     "addressPrefix": "192.168.1.",
-    "hubAddress": "192.168.1.169"
+    "hubAddress": "192.168.1.168",
+    "port": 8124
 }

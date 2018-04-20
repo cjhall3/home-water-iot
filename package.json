@@ -2,11 +2,10 @@
   "name": "home-water-iot",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "configure": "node lib/init.js",
+    "configure": "node lib/configure.js",
+    "start": "node lib/index.js",
     "connect": "echo \"TODO: write connection script using iwconfig\" && exit 1",
-    "start": "echo \"TODO: fill out index.js\" && exit 1",
     "test": "node test/test.js"
   },
   "author": "",
