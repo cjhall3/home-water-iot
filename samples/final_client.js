@@ -16,7 +16,7 @@ var server_ip = "192.168.1.1";
 console.log( "   SERVER IP ADDR: " + server_ip );
 
 // Motor pinout
-var motor_pin    = "P9_11";
+var motor_pin    = "P9_12";
 var LOW          = 0;
 var HIGH         = 1;
 console.log( "   MOTOR PIN: " + motor_pin );
