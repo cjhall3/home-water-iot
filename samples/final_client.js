@@ -23,7 +23,7 @@ console.log( "   MOTOR PIN: " + motor_pin );
 
 // Flow sensor pinout and calibration values
 var flow_pin           = "P9_19";
-var calibration_factor = 4.5;
+var calibration_factor = 7.1;
 var pulse_count        = 0;
 var flow_rate          = 0.0;
 var flow_mL            = 0;
@@ -52,14 +52,17 @@ setInterval( loop, 1000 );
 client.on( "data", function( data ) {
 	var server_response = data.toString()
 	if( server_response === "OK" ) {
+		console.log( "Water Used: [" + parseFloat( total_mL ).toFixed( 2 ) + "] --> OK" );
 		return;	
 	}
 	else if( server_response === "STOP" ) {
+		console.log( "Water Used: [" + parseFloat( total_mL ).toFixed( 2 ) + "] --> STOP" );
 		b.digitalWrite( motor_pin, LOW );
 	}
 	else if( server_response === "RESET" ) {
-                b.digitalWrite( motor_pin, HIGH );
 		total_mL = 0;		
+		console.log( "Water Used: [" + parseFloat( total_mL ).toFixed( 2 ) + "] --> RESET" );
+                b.digitalWrite( motor_pin, HIGH );
 	}
 	else {
 		console.log( "Other message received. Cannot interpret..." );
@@ -78,16 +81,15 @@ function loop() {
 
   client.write( faucet_id + "," + total_mL.toString() );
    
-  pulseCount = 0;
+  pulse_count = 0;
   b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin handler..." );
 }
 
 function pulseCounter( val ){
   if ( val.attached ) {
     attached = true;
-    console.log( "Flow sensor handler attached..." );
   } else if( attached ) {
-      ++pulseCount;
+      ++pulse_count;
   } else {
       die("[ERROR] Flow sensor handler did not attach...");
   }
