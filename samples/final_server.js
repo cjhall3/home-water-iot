@@ -144,7 +144,7 @@ function loop() {
         is_normal = false;
         is_critical = true;
         is_empty = false;
-        flow_max = ( total_mL / 2 ) - empty_level;
+        flow_max = ( total_mL - empty_level ) / 2;
     }
     else {
         is_normal = true;
