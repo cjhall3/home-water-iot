@@ -17,6 +17,8 @@ var total_mL           = 0;
 var attached           = false;
 var FLOW_MAX           = 2000;
 var flow_max           = FLOW_MAX;
+var critical_level     = 9000;
+var empty_level        = 2000;
 console.log( "   FLOW PIN: " + flow_pin );
 
 // Ultrasonic sensor pinout
@@ -24,9 +26,6 @@ var ultrasonic_pin                = "P9_40";
 var ultrasonic_distance           = 0;
 var ultrasonic_distance_slope     = 1210;
 var ultrasonic_distance_intercept = -19.021;
-var critical_level                = 4.5;
-var empty_level                   = 7.5;
-var full_level                    = 2.7;
 console.log( "   ULTRASONIC PIN: " + ultrasonic_pin );
 
 // Server command strings
@@ -40,9 +39,10 @@ var faucet_B_client = null;
 var faucet_A_usage = 0;
 var faucet_B_usage = 0;
 
-// State of the water supply
-var conservative_mode = false;
-var is_empty = false;
+// State of the main water supply
+var is_normal   = false;
+var is_critical = false;
+var is_empty    = false;
 
 // -------------------------------MAIN CODE------------------------------
 
@@ -81,11 +81,12 @@ var server = net.createServer( function( c ) {
         }
 
         // Check faucet reading with the maximum threshold for water use
-        if( faucet_id === "A" && faucet_flow_read >= flow_max ) {
+        // NOTE: added (-100) due to latency in motors
+        if( faucet_id === "A" && faucet_flow_read >= flow_max - 100 ) {
             console.log( "Stopping faucet A..." );
             faucet_A_client.write( "STOP" );
         }
-        else if( faucet_id === "B" && faucet_flow_read >= flow_max ) {
+        else if( faucet_id === "B" && faucet_flow_read >= flow_max - 100 ) {
             console.log( "Stopping faucet B..." );
             faucet_B_client.write( "STOP" );
         }
@@ -109,6 +110,12 @@ setInterval( resetQuota, 1000 * 60 );
 // --------------------------FUNCTION DECLARATIONS-----------------------
 
 function resetQuota() {
+    // Do not reset the quota if the system is not in "normal" mode
+    if( !is_normal ) {
+        return;
+    }
+
+    // Otherwise, assume the system is in "normal" mode
     console.log( "Quota for water usage expired. Resetting..." );
     if( faucet_A_client != null ) {
         faucet_A_client.write( "RESET" );
@@ -127,24 +134,27 @@ function loop() {
     b.analogRead( ultrasonic_pin, updateWaterLevel );
 
     // Assess the water level, and change state depending on it
-    if( ultrasonic_distance <= empty_level ) {
-        // Shut down the system, until the water level fills past the critical level
+    if( total_mL < empty_level ) {
+        is_normal = false;
+        is_critical = false;
         is_empty = true;
+        flow_max = 0;
     }
-    else if( ultrasonic_distance <= critical_level ) {
-        // Go into "conservative mode" if no water is coming into the system
-        // Otherwise, continue as normal
-        if( flow_rate == 0 ) {
-            conservative_mode = true;
-            flow_max = ( total_mL - 100 ) / 2;
-        }
+    else if( total_mL >= empty_level && total_mL < critical_level ) {
+        is_normal = false;
+        is_critical = true;
+        is_empty = false;
+        flow_max = ( total_mL - 100 ) / 2;
     }
     else {
-        // Proceed as normal
-        conservative_mode = false;
+        is_normal = true;
+        is_critical = false;
         is_empty = false;
         flow_max = FLOW_MAX;
     }
+
+    console.log( "State: [" + (is_normal ? "  NORMAL" : (is_critical ? "CRITICAL" : "   EMPTY")) +
+        "], Total Volume: " + total_mL ); 
     
     pulseCount = 0;
     b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin handler..." );
