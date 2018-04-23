@@ -20,12 +20,12 @@ var flow_max           = FLOW_MAX;
 console.log( "   FLOW PIN: " + flow_pin );
 
 // Ultrasonic sensor pinout
-var ultrasonic_pin             = "P9_39";
+var ultrasonic_pin             = "P9_40";
 var ultrasonic_distance        = 0;
 var ultrasonic_distance_factor = 1.8 / 0.00699;
-var critical_level             = 14;
-var empty_level                = 2.7;
-var full_level                 = 18.9;
+var critical_level             = 4.5;
+var empty_level                = 7.5;
+var full_level                 = 2.7;
 console.log( "   ULTRASONIC PIN: " + ultrasonic_pin );
 
 // Server command strings
@@ -126,7 +126,7 @@ function loop() {
     b.analogRead( ultrasonic_pin, updateWaterLevel );
 
     // Assess the water level, and change state depending on it
-    if( ultrasonic_distance <= bottom_level ) {
+    if( ultrasonic_distance <= empty_level ) {
         // Shut down the system, until the water level fills past the critical level
         is_empty = true;
     }
@@ -135,7 +135,7 @@ function loop() {
         // Otherwise, continue as normal
         if( flow_rate == 0 ) {
             conservative_mode = true;
-            flow_max = ( total_mL - 500 ) / 2;
+            flow_max = ( total_mL - 100 ) / 2;
         }
     }
     else {
