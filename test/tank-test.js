@@ -1,11 +1,13 @@
 var utils = require("./test-utils");
-var connect = require("../lib/net/connect");
+var Server = require("../lib/net/server");
 
 var ask = utils.ask;
 var wait = utils.wait;
 var print = utils.print;
 
 var run = function(tank) {
+    var server = null;
+
     return Promise.resolve()
         .then(() => ask("Running tank tests. Please run faucet tests first. Continue?"))
         .then(() => tank.readLevel())
@@ -19,16 +21,27 @@ var run = function(tank) {
         .then(() => tank.readLevel())
         .then(level => print("Proximity sensor measured " + level + " liters"))
         .then(() => ask("Is this measurement accurate?"))
-        .then(() => {
+        .then(() => config.getSystemConfig())
+        .then(config => {
             print("Starting server...");
-            // return connect.asTank();
+            server = new Server(config, tank);
+            return server.start();
         })
         .then(() => {
-            // TODO: Listen for two connections
-            return wait(5000);
+            print("Please press enter on both faucet beaglebones");
+            print("Wating for connections...");
+            var connections = 0;
+            return new Promise(accept => {
+                server._server.on("connection", () => {
+                    connections++;
+                    if (connections === 2) {
+                        accept();
+                    }
+                });
+            }
         })
         .then(() => {
-            print("Connection successful");
+            print("Connections successful");
             print("Opening valves...");
             // TODO: tell faucets to open
         })

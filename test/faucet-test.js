@@ -1,11 +1,13 @@
 var utils = require("./test-utils");
-var connect = require("../lib/net/connect");
+var client = require("../lib/net/client");
 
 var ask = utils.ask;
 var wait = utils.wait;
 var print = utils.print;
 
 var run = function(faucet) {
+    var client;
+
     return Promise.resolve()
         .then(() => ask("Running faucet tests. Continue?"))
         .then(() => {
@@ -29,9 +31,11 @@ var run = function(faucet) {
         .then(() => print("Measured " + faucet.waterUsage + " liters"))
         .then(() => ask("Is this measurement accurate?"))
         .then(() => ask("After running all faucet tests, run the tank tests. Finished?"))
-        .then(() => {
+        .then(() => config.getSystemConfig())
+        .then(config => {
             print("Attempting to connect...");
-            // return connect.asFaucet();
+            client = new Client(config, faucet);
+            return client.start();
         })
         .then(() => ask("Connection success. Please continue when the water stops flowing."));
 }
