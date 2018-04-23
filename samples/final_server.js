@@ -154,7 +154,7 @@ function loop() {
     }
 
     console.log( "State: [" + (is_normal ? "  NORMAL" : (is_critical ? "CRITICAL" : "   EMPTY")) +
-        "], Total Volume: " + total_mL ); 
+        "], Total Volume: " + total_mL + " mL" ); 
     
     pulseCount = 0;
     b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin handler..." );
