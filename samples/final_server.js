@@ -9,7 +9,7 @@ console.log( "----------INITIALIZING STARTUP----------" );
 
 // Flow sensor pinout and calibration values
 var flow_pin           = "P9_19";
-var calibration_factor = 4.5;
+var calibration_factor = 7.1;
 var pulse_count        = 0;
 var flow_rate          = 0.0;
 var flow_mL            = 0;
@@ -20,12 +20,13 @@ var flow_max           = FLOW_MAX;
 console.log( "   FLOW PIN: " + flow_pin );
 
 // Ultrasonic sensor pinout
-var ultrasonic_pin             = "P9_40";
-var ultrasonic_distance        = 0;
-var ultrasonic_distance_factor = 1.8 / 0.00699;
-var critical_level             = 4.5;
-var empty_level                = 7.5;
-var full_level                 = 2.7;
+var ultrasonic_pin                = "P9_40";
+var ultrasonic_distance           = 0;
+var ultrasonic_distance_slope     = 1210;
+var ultrasonic_distance_intercept = -19.021;
+var critical_level                = 4.5;
+var empty_level                   = 7.5;
+var full_level                    = 2.7;
 console.log( "   ULTRASONIC PIN: " + ultrasonic_pin );
 
 // Server command strings
@@ -150,7 +151,7 @@ function loop() {
 }
 
 function updateWaterLevel( voltage ) {
-    ultrasonic_distance = voltage * ultrasonic_distance_factor;
+    ultrasonic_distance = voltage * ultrasonic_distance_slope + ultrasonic_distance_intercept;
 }
 
 function pulseCounter( val ){
