@@ -38,8 +38,6 @@ var faucet_A_client = null;
 var faucet_B_client = null;
 var faucet_A_usage = 0;
 var faucet_B_usage = 0;
-var faucet_A_on = false;
-var faucet_B_on = false;
 
 // State of the main water supply
 var is_normal   = false;
@@ -78,12 +76,11 @@ var server = net.createServer( function( c ) {
 
         // Add sanity check to input; make sure the data isn't corrupted
         var parsed_read = parseFloat( faucet_flow_read );
-	if( isNan( parsed_read ) ) {
+	if( isNaN( parsed_read ) ) {
             parsed_read = 0;
 	}
 
         // Check faucet reading with the maximum threshold for water use
-        // NOTE: added (-100) due to latency in motors
         if( faucet_id === "A" ) {
 	    faucet_A_usage += parsed_read;
 	    total_mL -= faucet_A_usage;
