@@ -15,8 +15,8 @@ var flow_rate          = 0.0;
 var flow_mL            = 0;
 var total_mL           = 0;
 var attached           = false;
-var FLOW_MAX           = 2000;
-var flow_max           = FLOW_MAX;
+var FLOW_MAX_NORMAL    = 2000;
+var flow_max           = FLOW_MAX_NORMAL;
 var critical_level     = 9000;
 var empty_level        = 2000;
 console.log( "   FLOW PIN: " + flow_pin );
@@ -38,6 +38,8 @@ var faucet_A_client = null;
 var faucet_B_client = null;
 var faucet_A_usage = 0;
 var faucet_B_usage = 0;
+var faucet_A_on = false;
+var faucet_B_on = false;
 
 // State of the main water supply
 var is_normal   = false;
@@ -55,12 +57,6 @@ var server = net.createServer( function( c ) {
         var response = data.toString().split( "," );
 	var faucet_id = response[ 0 ];
 	var faucet_flow_read = response[ 1 ];
-
-        // Add sanity check to parsing flow read; it could be bogus
-        var parsed_read = parseFloat( faucet_flow_read );
-        if( !isNaN( parsed_read ) ) {
-            total_mL -= parsed_read;
-        }
 
         // Assign faucets
         if( faucet_id === "A" && faucet_A_client == null ) {
@@ -80,19 +76,36 @@ var server = net.createServer( function( c ) {
             });
         }
 
+        var parsed_read = parseFloat( faucet_flow_read );
+	if( isNan( parsed_read ) ) {
+            parsed_read = 0;
+	}
+
         // Check faucet reading with the maximum threshold for water use
         // NOTE: added (-100) due to latency in motors
-        if( faucet_id === "A" && faucet_flow_read >= flow_max - 100 ) {
-            console.log( "Stopping faucet A..." );
-            faucet_A_client.write( "STOP" );
+        if( faucet_id === "A" ) {
+	    faucet_A_usage += parsed_read;
+	    total_mL -= faucet_A_usage;
+	    if( faucet_A_usage >= flow_max ) {
+		faucet_A_client.write( "STOP" );
+	    }
+	    else {
+ 		faucet_A_client.write( "OK" );
+	    }
         }
-        else if( faucet_id === "B" && faucet_flow_read >= flow_max - 100 ) {
-            console.log( "Stopping faucet B..." );
-            faucet_B_client.write( "STOP" );
+	else if( faucet_id === "B" ) {
+	    faucet_B_usage += parsed_read;
+	    total_mL -= faucet_B_usage;
+	    if( faucet_B_usage >= flow_max ) {
+		faucet_B_client.write( "STOP" );
+	    }
+	    else {
+ 		faucet_B_client.write( "OK" );
+	    }
         }
-        else {
-            c.write( "OK" );
-        }
+	else {
+            console.log( "[ERROR] Invalid faucet id..." );
+	}
     });
 });
 
@@ -119,16 +132,18 @@ function resetQuota() {
     console.log( "Quota for water usage expired. Resetting..." );
     if( faucet_A_client != null ) {
         faucet_A_client.write( "RESET" );
+	faucet_A_usage = 0;
     }
     if( faucet_B_client != null ) {
         faucet_B_client.write( "RESET" );
+	faucet_B_usage = 0;
     }
 }
 
 function loop() {
     b.detachInterrupt( flow_pin );
     flow_rate = pulse_count / calibration_factor;
-    flow_mL = ( flow_rate / 60 )*1000;
+    flow_mL = ( flow_rate / 60 ) * 1000;
     total_mL += flow_mL;
     
     b.analogRead( ultrasonic_pin, updateWaterLevel );
@@ -138,25 +153,25 @@ function loop() {
         is_normal = false;
         is_critical = false;
         is_empty = true;
-        flow_max = 0;
+	flow_max = 0;
     }
     else if( total_mL >= empty_level && total_mL < critical_level ) {
         is_normal = false;
         is_critical = true;
         is_empty = false;
-        flow_max = ( total_mL - empty_level ) / 2;
+        flow_max = ( critical_level - empty_level ) / 2;
     }
     else {
         is_normal = true;
         is_critical = false;
         is_empty = false;
-        flow_max = FLOW_MAX;
+	flow_max = FLOW_MAX_NORMAL;
     }
 
     console.log( "State: [" + (is_normal ? "  NORMAL" : (is_critical ? "CRITICAL" : "   EMPTY")) +
-        "], Total Volume: " + total_mL + " mL" ); 
+        "], Total Volume: " + parseFloat( total_mL ).toFixed( 3 ) + " mL, Faucet A Usage: [" + parseFloat( faucet_A_usage ).toFixed( 3 ) + " mL], Faucet B Usage: [" + parseFloat( faucet_B_usage ).toFixed ( 3 ) + " mL]" ); 
     
-    pulseCount = 0;
+    pulse_count = 0;
     b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin handler..." );
 }
 
@@ -168,7 +183,7 @@ function pulseCounter( val ){
     if ( val.attached ) {
         attached = true;
     } else if( attached ) {
-        ++pulseCount;
+        ++pulse_count;
     } else {
         die("[ERROR] Flow sensor handler did not attach...");
     }
