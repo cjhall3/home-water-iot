@@ -5,7 +5,8 @@
   "scripts": {
     "configure": "node lib/configure.js",
     "start": "node lib/index.js",
-    "connect": "echo \"TODO: write connection script using iwconfig\" && exit 1",
+    "connect": "node bin/connect.js",
+    "disconnect": "node bin/disconnect.js",
     "test": "node test/test.js"
   },
   "author": "",
