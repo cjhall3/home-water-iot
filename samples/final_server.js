@@ -76,6 +76,7 @@ var server = net.createServer( function( c ) {
             });
         }
 
+        // Add sanity check to input; make sure the data isn't corrupted
         var parsed_read = parseFloat( faucet_flow_read );
 	if( isNan( parsed_read ) ) {
             parsed_read = 0;
@@ -156,6 +157,12 @@ function loop() {
 	flow_max = 0;
     }
     else if( total_mL >= empty_level && total_mL < critical_level ) {
+        // Reset the usage of each user upon transition
+        // from normal level to critical level
+        if( !is_critical && is_normal ) {
+            faucet_A_usage = 0;
+            faucet_B_usage = 0;
+        }
         is_normal = false;
         is_critical = true;
         is_empty = false;
