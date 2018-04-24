@@ -176,7 +176,7 @@ function loop() {
     }
 
     console.log( "State: [" + (is_normal ? "  NORMAL" : (is_critical ? "CRITICAL" : "   EMPTY")) +
-        "], Total Volume: " + parseFloat( total_mL ).toFixed( 3 ) + " mL, Faucet A Usage: [" + parseFloat( faucet_A_usage ).toFixed( 3 ) + " mL], Faucet B Usage: [" + parseFloat( faucet_B_usage ).toFixed ( 3 ) + " mL]" ); 
+        "], Total Volume: [" + parseFloat( total_mL ).toFixed( 3 ) + " mL], Faucet A Usage: [" + parseFloat( faucet_A_usage ).toFixed( 3 ) + " mL], Faucet B Usage: [" + parseFloat( faucet_B_usage ).toFixed ( 3 ) + " mL]" ); 
     
     pulse_count = 0;
     b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin handler..." );
