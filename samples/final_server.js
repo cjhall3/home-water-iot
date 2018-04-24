@@ -129,12 +129,12 @@ function resetQuota() {
     // Otherwise, assume the system is in "normal" mode
     console.log( "Quota for water usage expired. Resetting..." );
     if( faucet_A_client != null ) {
-        faucet_A_client.write( "RESET" );
 	faucet_A_usage = 0;
+        faucet_A_client.write( "RESET" );
     }
     if( faucet_B_client != null ) {
-        faucet_B_client.write( "RESET" );
 	faucet_B_usage = 0;
+        faucet_B_client.write( "RESET" );
     }
 }
 
