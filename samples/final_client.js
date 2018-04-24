@@ -41,7 +41,7 @@ var client = net.connect( 8124, server_ip, function() {
 });
 
 b.pinMode( motor_pin, b.OUTPUT ) || die( "[ERROR] Failed to set motor_pin..." );
-b.digitalWrite( motor_pin, HIGH );
+b.digitalWrite( motor_pin, LOW );
 
 b.pinMode( flow_pin, b.INPUT ) || die( "[ERROR] Failed to set flow_pin..." );
 b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin interrupt handler..." );
@@ -53,7 +53,7 @@ client.on( "data", function( data ) {
 	var server_response = data.toString()
 	if( server_response === "OK" ) {
 		console.log( "Water Used: [" + parseFloat( total_mL ).toFixed( 2 ) + "] --> OK" );
-		return;	
+                b.digitalWrite( motor_pin, HIGH );
 	}
 	else if( server_response === "STOP" ) {
 		console.log( "Water Used: [" + parseFloat( total_mL ).toFixed( 2 ) + "] --> STOP" );
