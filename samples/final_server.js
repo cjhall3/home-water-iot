@@ -156,7 +156,7 @@ function loop() {
     console.log( "State: [" + (is_normal ? "  NORMAL" : (is_critical ? "CRITICAL" : "   EMPTY")) +
         "], Total Volume: " + total_mL + " mL" ); 
     
-    pulseCount = 0;
+    pulse_count = 0;
     b.attachInterrupt( flow_pin, true, b.FALLING, pulseCounter ) || die( "[ERROR] Failed to set flow_pin handler..." );
 }
 
@@ -168,7 +168,7 @@ function pulseCounter( val ){
     if ( val.attached ) {
         attached = true;
     } else if( attached ) {
-        ++pulseCount;
+        ++pulse_count;
     } else {
         die("[ERROR] Flow sensor handler did not attach...");
     }
