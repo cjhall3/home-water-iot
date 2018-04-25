@@ -26,6 +26,9 @@ var ultrasonic_pin                = "P9_40";
 var ultrasonic_distance           = 0;
 var ultrasonic_distance_slope     = 1210;
 var ultrasonic_distance_intercept = 1.021;
+var ultrasonic_max_level          = 5;
+var ultrasonic_critical_level     = 14;
+var ultrasonic_empty_level        = 33;
 console.log( "   ULTRASONIC PIN: " + ultrasonic_pin );
 
 // Server command strings
@@ -180,7 +183,10 @@ function loop() {
 }
 
 function updateWaterLevel( voltage ) {
-    ultrasonic_distance = voltage * ultrasonic_distance_slope + ultrasonic_distance_intercept;
+    ultrasonic_distance = voltage.value * ultrasonic_distance_slope + ultrasonic_distance_intercept;
+    // Calculate volume, and compare to the flow sensor readings
+    var volume = Math.PI * Math.pow(15, 2) * (32 - Math.min( ultrasonic_distance, 32 ));
+    console.log( "Calculated volume: " + parseFloat( volume ).toFixed( 3 ) + " mL" );
 }
 
 function pulseCounter( val ){
