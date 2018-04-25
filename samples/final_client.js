@@ -37,7 +37,6 @@ console.log( "----------------------------------------" );
 
 var client = net.connect( 8124, server_ip, function() {
 	console.log( "Connected to server..." );
-	client.write( "Connected: Faucet_" + faucet_id );
 });
 
 b.pinMode( motor_pin, b.OUTPUT ) || die( "[ERROR] Failed to set motor_pin..." );
