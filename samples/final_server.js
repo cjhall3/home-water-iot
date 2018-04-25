@@ -25,7 +25,7 @@ console.log( "   FLOW PIN: " + flow_pin );
 var ultrasonic_pin                = "P9_40";
 var ultrasonic_distance           = 0;
 var ultrasonic_distance_slope     = 1210;
-var ultrasonic_distance_intercept = -19.021;
+var ultrasonic_distance_intercept = 1.021;
 console.log( "   ULTRASONIC PIN: " + ultrasonic_pin );
 
 // Server command strings
