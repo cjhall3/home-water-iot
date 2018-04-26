@@ -85,8 +85,7 @@ var server = net.createServer( function( c ) {
 
         // Check faucet reading with the maximum threshold for water use
         if( faucet_id === "A" ) {
-	    faucet_A_usage += parsed_read;
-	    total_mL -= faucet_A_usage;
+	    faucet_A_usage = parsed_read;
 	    if( faucet_A_usage >= flow_max ) {
 		faucet_A_client.write( "STOP" );
 	    }
@@ -95,8 +94,7 @@ var server = net.createServer( function( c ) {
 	    }
         }
 	else if( faucet_id === "B" ) {
-	    faucet_B_usage += parsed_read;
-	    total_mL -= faucet_B_usage;
+	    faucet_B_usage = parsed_read;
 	    if( faucet_B_usage >= flow_max ) {
 		faucet_B_client.write( "STOP" );
 	    }
@@ -188,7 +186,7 @@ function updateWaterLevel( voltage ) {
 
     // Calculate volume, and compare to the flow sensor readings
     var volume = Math.PI * Math.pow(14.25, 2) * ultrasonic_distance;
-    console.log( "Calculated volume: " + parseFloat( volume ).toFixed( 3 ) + " mL" );
+    total_mL = (total_mL + volume) / 2;
 }
 
 function pulseCounter( val ){
