@@ -31,6 +31,9 @@ var total_mL           = 0;
 var attached           = false;
 console.log( "   FLOW PIN: " + flow_pin );
 
+// Buffer for messages
+var buf = "";
+
 // -------------------------------MAIN CODE------------------------------
 
 console.log( "----------------------------------------" );
@@ -49,7 +52,17 @@ setInterval( loop, 1000 );
 // --------------------------FUNCTION DECLARATIONS-----------------------
 
 client.on( "data", function( data ) {
-	var server_response = data.toString()
+	buf += data.toString();
+	var d_index = buf.indexOf( ";" );
+
+	// No delimiter, return
+	if( d_index == -1 ) {
+		return;
+	}
+
+	var server_response = buf.substring( 0, d_index );
+	buf = buf.substring( d_index + 1 );
+
 	if( server_response === "OK" ) {
 		console.log( "Water Used: [" + parseFloat( total_mL ).toFixed( 2 ) + "] --> OK" );
                 b.digitalWrite( motor_pin, HIGH );
