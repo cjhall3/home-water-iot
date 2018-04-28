@@ -13,7 +13,7 @@ This project uses the following commands:
 ## Demo code
 This project uses the code in the /samples directory for demo. The server program is _final_server_mod.js_ and the client program is _final_client_mod.js_. Run them as follows:
 
-To set up the ad-hoc network (IP) is the IP Address of that device:
+To set up the ad-hoc network (_IP_ is the IP Address of that device):
 
 `sudo ./setup_ad_hoc [IP]`
 
