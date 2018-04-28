@@ -23,4 +23,4 @@ To run the server program:
 
 To run the client program (_X_ is the name of the faucet):
 
-`sudo node final_client_mod.js X` 
+`sudo node final_client_mod.js [X]` 
