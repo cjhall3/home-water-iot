@@ -14,10 +14,10 @@ This project uses the following commands:
 This project uses the code in the /samples directory for demo. The server program is _final_server_mod.js_ and the client program is _final_client_mod.js_. Run them as follows:
 
 To set up the ad-hoc network (IP) is the IP Address of that device:
-""" sudo ./setup_ad_hoc [IP] """
+`sudo ./setup_ad_hoc [IP]`
 
 To run the server program:
-""" sudo node final_server_mod.js """
+`sudo node final_server_mod.js`
 
 To run the client program (_X_ is the name of the faucet):
-""" sudo node final_client_mod.js X """ 
+`sudo node final_client_mod.js X` 
