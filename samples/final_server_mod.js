@@ -186,7 +186,7 @@ function loop() {
 	    is_normal = false;
             is_critical = true;
             is_empty = false;
-            flow_max = ( critical_level - empty_level ) / 2;
+            flow_max = ( critical_level - empty_level ) / 2 + (flow_mL / 2);
 	}
     }
     else {
