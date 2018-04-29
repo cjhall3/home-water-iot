@@ -1,0 +1,78 @@
+
+----------INITIALIZING STARTUP----------
+   FAUCET: A
+   SERVER IP ADDR: 192.168.1.1
+   MOTOR PIN: P9_12
+   FLOW PIN: P9_19
+----------------------------------------
+Connected to server...
+Water Used: [0.00] --> OK
+Water Used: [0.00] --> OK
+Water Used: [0.00] --> OK
+Water Used: [0.00] --> OK
+Water Used: [0.00] --> OK
+Water Used: [0.00] --> OK
+Water Used: [0.00] --> OK
+Water Used: [42.25] --> OK
+Water Used: [110.33] --> OK
+Water Used: [176.06] --> OK
+Water Used: [239.44] --> OK
+Water Used: [302.82] --> OK
+Water Used: [368.54] --> OK
+Water Used: [431.92] --> OK
+Water Used: [495.31] --> OK
+Water Used: [558.69] --> OK
+Water Used: [619.72] --> OK
+Water Used: [680.75] --> OK
+Water Used: [739.44] --> OK
+Water Used: [798.12] --> OK
+Water Used: [856.81] --> OK
+Water Used: [917.84] --> OK
+Water Used: [976.53] --> OK
+Water Used: [1035.21] --> OK
+Water Used: [1093.90] --> OK
+Water Used: [1152.58] --> OK
+Water Used: [1208.92] --> OK
+Water Used: [1265.26] --> OK
+Water Used: [1319.25] --> OK
+Water Used: [1373.24] --> OK
+Water Used: [1427.23] --> OK
+Water Used: [1481.22] --> OK
+Water Used: [1537.56] --> OK
+Water Used: [1591.55] --> OK
+Water Used: [1643.19] --> OK
+Water Used: [1697.18] --> OK
+Water Used: [1748.83] --> OK
+Water Used: [1800.47] --> OK
+Water Used: [1849.77] --> OK
+Water Used: [1901.41] --> OK
+Water Used: [1950.70] --> OK
+Water Used: [2002.35] --> OK
+Water Used: [2051.64] --> OK
+Water Used: [2098.59] --> OK
+Water Used: [2145.54] --> OK
+Water Used: [2194.84] --> OK
+Water Used: [2241.78] --> OK
+Water Used: [2288.73] --> OK
+Water Used: [2333.33] --> OK
+Water Used: [2380.28] --> OK
+Water Used: [2424.88] --> OK
+Water Used: [2469.48] --> OK
+Water Used: [2514.08] --> OK
+Water Used: [2558.69] --> OK
+Water Used: [2600.94] --> OK
+Water Used: [2643.19] --> OK
+Water Used: [2685.45] --> OK
+Water Used: [2725.35] --> OK
+Water Used: [2767.61] --> STOP
+Water Used: [2807.51] --> STOP
+Water Used: [2835.68] --> STOP
+Water Used: [2838.03] --> STOP
+Water Used: [2838.03] --> STOP
+Water Used: [2838.03] --> STOP
+Water Used: [2838.03] --> STOP
+Water Used: [2838.03] --> STOP
+Water Used: [2838.03] --> STOP
+Water Used: [2838.03] --> STOP
+Water Used: [2838.03] --> STOP
+disconnected from server

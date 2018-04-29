@@ -1,0 +1,60 @@
+
+----------INITIALIZING STARTUP----------
+   FAUCET: A
+   SERVER IP ADDR: 192.168.1.1
+   MOTOR PIN: P9_12
+   FLOW PIN: P9_19
+----------------------------------------
+Connected to server...
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
+Water Used: [0.00] --> STOP
