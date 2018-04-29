@@ -24,3 +24,15 @@ To run the server program:
 To run the client program (_X_ is the name of the faucet):
 
 `sudo node final_client_mod.js [X]` 
+
+## Description of Important Files Used in Development (/samples)
+* flowTest.js - initial test code for testing the flow sensor
+* FlowTestv2.0.js - modified test code for testing the flow sensor
+* ultraSonic.js - test code (from Beaglebone.org) for testing the ultrasonic sensor
+* Test_client.js - initial client code testing
+* Test_server.js - initial server code testing
+* final_client.js - demo program for client; takes command line argument to specify the name of the faucet client
+* final_server.js - demo program for server
+* final_client_mod.js - modified client program to support message buffer for TCP sockets
+* final_server_mod.js - modified server program to support message buffer for TCP sockets
+* setup_ad_hoc - bash script used to automatically configure ad-hoc network given IP Address as command line argument
